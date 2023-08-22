@@ -5,14 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile.next
     ports:
-      - "7003:3000"
+      - "127.0.0.1:7003:3000"
 
   nest-api:
     build:
       context: .
       dockerfile: ./src/api/Dockerfile.nest
     ports:
-      - "7004:4000"
+      - "127.0.0.1:7004:4000"
     depends_on:
       - db
     environment:
@@ -21,7 +21,7 @@ services:
   db:
     image: mysql:8.1.0
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=adminMailRoot
       - MYSQL_DATABASE=mailserver
