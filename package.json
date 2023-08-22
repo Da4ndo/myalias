@@ -1,14 +1,31 @@
 {
   "name": "myalias.pro",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "www.myalias.pro is a secure email alias generator that forwards emails to your real inbox. It allows you to create, enable, or delete aliases on demand. With myalias.pro, you can effectively manage and reduce spam by turning off aliases receiving excessive unwanted emails.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Da4ndo/myalias.pro.git"
+  },
+  "keywords": [],
+  "author": "Da4ndo <contact@da4ndo.com> (https://da4ndo.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Da4ndo/myalias.pro/issues"
+  },
+  "homepage": "https://github.com/Da4ndo/myalias.pro#readme",
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
-    "build": "next build",
     "start:single": "next start",
-    "start": "yarn run start & (cd src/api && yarn run start)",
     "start:dev": "yarn run dev & (cd src/api && yarn run start:dev)",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:next": "next build",
+    "build:nest": "cd src/api && npm run build",
+    "build": "npm run build:next && npm run build:nest",
+    "start:next": "next start",
+    "start:nest": "cd src/api && npm run start:prod",
+    "start": "npm run start:next & npm run start:nest"
   },
   "dependencies": {
     "@types/node": "20.5.0",
