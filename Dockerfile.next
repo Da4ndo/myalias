@@ -6,7 +6,7 @@ COPY package*.json ./
 
 COPY . .
 
-RUN npm install
+RUN yarn install
 
 RUN npm build:next
 

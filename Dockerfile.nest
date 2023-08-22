@@ -1,12 +1,12 @@
 FROM node:20
 
-WORKDIR /usr/src/app/src/api
+WORKDIR /usr/src/app/api
 
 COPY src/api/package*.json ./
 
 COPY src/api/ .
 
-RUN npm install
+RUN yarn install
 
 RUN npm build:prod
 
