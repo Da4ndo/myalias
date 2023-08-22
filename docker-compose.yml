@@ -6,10 +6,6 @@ services:
       dockerfile: Dockerfile.next
     ports:
       - "7003:3000"
-    depends_on:
-      - db
-    environment:
-      - DATABASE_HOST=db
 
   nest-api:
     build:
