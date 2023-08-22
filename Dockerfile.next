@@ -6,6 +6,6 @@ COPY package*.json ./
 
 COPY . .
 
-RUN npm build:next
+RUN npm run build:next
 
 CMD [ "npm", "run", "start:next" ]
