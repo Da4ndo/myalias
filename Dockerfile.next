@@ -6,8 +6,6 @@ COPY package*.json ./
 
 COPY . .
 
-RUN npm install
-
 RUN npm build:next
 
 CMD [ "npm", "run", "start:next" ]

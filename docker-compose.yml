@@ -14,7 +14,7 @@ services:
   nest-api:
     build:
       context: .
-      dockerfile: Dockerfile.nest
+      dockerfile: ./src/api/Dockerfile.nest
     ports:
       - "7004:4000"
     depends_on:
