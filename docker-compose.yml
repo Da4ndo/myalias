@@ -4,7 +4,6 @@ services:
   app:
     build: .
     ports:
-      - "7002:8080"
       - "7004:4000"
       - "7003:3000"
     depends_on:
