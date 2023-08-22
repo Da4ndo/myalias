@@ -7,6 +7,6 @@ COPY package*.json ./
 
 COPY .next ./
 
-COPY src/api/dist ./src/api/dist
+COPY ./src/api/dist ./src/api/dist
 
 CMD [ "npm", "start" ]
