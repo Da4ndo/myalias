@@ -1,15 +1,27 @@
-# docker-compose.yml
 version: '3'
 services:
-  app:
-    build: .
+  next-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.next
     ports:
-      - "7004:4000"
       - "7003:3000"
     depends_on:
       - db
     environment:
       - DATABASE_HOST=db
+
+  nest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.nest
+    ports:
+      - "7004:4000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+
   db:
     image: mysql:8.1.0
     ports:
