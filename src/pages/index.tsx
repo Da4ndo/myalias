@@ -1,172 +1,167 @@
 import "../app/globals.css";
 
 import React, { useEffect, useState } from "react";
-import Cookie from "js-cookie";
-import { FaTrash } from "react-icons/fa";
+import { FaUserSecret, FaTrashAlt, FaToggleOn } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { Alias } from "../shared/types";
 
 export default function Home() {
-  const [aliases, setAliases] = useState<Alias[]>([]);
-  const [realEmail, setRealEmail] = useState("");
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = Cookie.get("token");
-
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    // Fetch aliases from the API
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Authentication failed");
-        return response.json();
-      })
-      .then((data) => {
-        setAliases(data.aliases);
-        setRealEmail(data.realEmail);
-        setLoading(false); // Set loading to false after data is set
-      })
-      .catch(() => {
-        router.push("/login");
-      });
-  }, [router]);
-
-  const deleteAlias = (aliasEmail: string) => {
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setAliases((prevAliases) =>
-            prevAliases.filter((alias) => alias.alias_email !== aliasEmail)
-          );
-        } else {
-          console.error(data.message);
-        }
-      });
-  };
-
-  const toggleAlias = (aliasEmail: string) => {
-    const aliasToToggle = aliases.find(
-      (alias) => alias.alias_email === aliasEmail
-    );
-    if (!aliasToToggle) return;
-
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ enable: !aliasToToggle.enable }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setAliases((prevAliases) =>
-            prevAliases.map((alias) => {
-              if (alias.alias_email === aliasEmail) {
-                alias.enable = !alias.enable;
-              }
-              return alias;
-            })
-          );
-        } else {
-          console.error(data.message);
-        }
-      });
-  };
-
-  const createNewAlias = () => {
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 201 && data.alias) {
-          setAliases((prevAliases) => [...prevAliases, data.alias]);
-        } else {
-          console.error(data.message);
-        }
-      });
-  };
-
-  const handleLogout = () => {
-    Cookie.remove("token");
-    router.push("/login");
-  };
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <div className="bg-white shadow p-4 fixed w-full top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-center w-full">{realEmail}</h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white rounded-full px-4 py-2">
-            Logout
-          </button>
-        </div>
+    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen">
+      <div className="bg-red-500 text-white w-full p-4">
+        <p className="text-center">
+          This is a test SaaS, not a real company. However, the system is secure and fully functional. For support, contact the creator, Da4ndo, at contact@da4ndo.com.
+        </p>
       </div>
+      
+      <div className="container mx-auto px-1 py-5"> {/* Reduced padding here */}
+        {/* Navigation */}
+        <nav className="flex justify-between items-center">
+          <div className="flex items-center">
+            <img
+              src="/myalias-removebg.png"
+              alt="myalias logo"
+              className="w-full h-20 mr-4 bg-gray-100 bg-opacity-100 rounded"
+            />
+          </div>
+          <div>
+            <a
+              href="/login"
+              className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-150">
+              Login
+            </a>
+            <a
+              href="/signup"
+              className="ml-4 px-4 py-2 bg-white text-blue-500 rounded hover:bg-gray-100 transition duration-150">
+              Join Waitlist
+            </a>
+          </div>
+        </nav>
 
-      <div className="flex-1 py-20">
-        <div className="container mx-auto">
-          <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            {aliases.map((alias) => (
-              <div
-                key={alias.id}
-                className="border p-4 mb-4 rounded shadow-sm flex items-center justify-between">
-                <button
-                  onClick={() => toggleAlias(alias.alias_email)}
-                  className={`px-4 py-2 rounded ${
-                    alias.enable ? "bg-green-500" : "bg-red-500"
-                  }`}>
-                  {alias.enable ? "On" : "Off"}
-                </button>
-                <h2 className="font-bold text-lg mx-4 flex-1">
-                  {alias.alias_email}
-                </h2>
-                <button
-                  onClick={() => deleteAlias(alias.alias_email)}
-                  className="p-2 rounded hover:bg-gray-200">
-                  <FaTrash style={{ color: "red", fontSize: "24px" }} />
-                </button>
+        {/* Hero Section */}
+        <header className="mt-10 md:mt-16 relative bg-blue-500 rounded-lg p-8"> {/* Reduced margin and padding here */}
+          <img
+            src="/background-image.jpg"
+            alt="Background Image"
+            className="w-full h-64 md:h-[400px] object-cover mb-3 rounded"
+          />{" "}
+          {/* Placeholder for a background image */}
+          <div className="container mx-auto relative z-20">
+            <div className="text-center md:text-left md:flex md:items-center md:justify-between">
+              <div className="space-y-8 md:space-y-12">
+                <h1 className="text-4xl md:text-5xl font-bold text-white"> {/* Reduced font size here */}
+                  Reimagine Your Email Workflow
+                </h1>
+                <p className="text-lg md:text-xl text-white leading-relaxed"> {/* Reduced font size here */}
+                  With myalias, take control of your email. Create and manage
+                  aliases seamlessly, ensuring your main email stays
+                  clutter-free.
+                </p>
+                <div className="mt-6"> {/* Reduced margin here */}
+                  <a
+                    href="/signup"
+                    className="inline-block px-8 py-3 text-lg bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-200 transition duration-200">
+                    Join Waitlist
+                  </a>
+                </div>
               </div>
-            ))}
+              <div className="hidden md:block mt-6"> {/* Reduced margin here */}
+                {/* Placeholder for an illustration */}
+              </div>
+            </div>
           </div>
+        </header>
 
-          <div className="text-center">
-            <button
-              onClick={createNewAlias}
-              className="px-4 py-2 bg-blue-500 text-white rounded">
-              Create New Alias
-            </button>
+        {/* Features Section */}
+        <section className="mt-20 py-16 bg-white rounded-xl shadow-lg">
+          <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 px-8">
+            {/* Feature 1 */}
+            <div className="text-center">
+              <div className="w-20 h-20 mx-auto bg-blue-500 rounded-full mb-8 flex items-center justify-center">
+                <FaUserSecret className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Create Alias</h3>
+              <p className="text-gray-600">
+                Create unique aliases for different purposes, keeping your main email clutter-free.
+              </p>
+            </div>
+            {/* Feature 2 */}
+            <div className="text-center">
+              <div className="w-20 h-20 mx-auto bg-blue-500 rounded-full mb-8 flex items-center justify-center">
+                <FaTrashAlt className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Delete Alias</h3>
+              <p className="text-gray-600">
+                Easily delete aliases that are no longer needed, managing your email workflow efficiently.
+              </p>
+            </div>
+            {/* Feature 3 */}
+            <div className="text-center">
+              <div className="w-20 h-20 mx-auto bg-blue-500 rounded-full mb-8 flex items-center justify-center">
+                <FaToggleOn className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Enable/Disable Alias</h3>
+              <p className="text-gray-600">
+                Enable or disable aliases as per your needs, giving you full control over your email.
+              </p>
+            </div>
+            {/* ... Add more features if needed */}
           </div>
-        </div>
+        </section>
+
+        {/* Plans Section */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold text-center mb-10 text-white">
+            Choose Your Plan
+          </h2>
+          <div className="flex space-x-8">
+            {/* Free Plan */}
+            <div className="flex-1 bg-white rounded-xl shadow-lg p-8 text-center transition transform hover:scale-105">
+              <h3 className="text-2xl font-bold mb-4">Free</h3>
+              <ul className="text-gray-600 mb-8 text-lg">
+                <li className="mb-2">✔ Instant Email Forwarding</li>
+                <li className="mb-2">✔ Limited alias creation (10)</li>
+                <li className="mb-2">✔ Encrypted emails</li>
+                <li className="mb-2">✔ We do not peek into your emails</li>
+                <li className="mb-2">✔ We do not store your emails</li>
+                
+                {/* ... Add more features */}
+              </ul>
+              <a
+                href="/signup"
+                className="inline-block px-8 py-3 text-lg bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-150">
+                Get Started
+              </a>
+            </div>
+
+            {/* Plus Plan */}
+            <div className="flex-1 bg-white rounded-xl shadow-lg p-8 text-center transition transform hover:scale-105">
+              <h3 className="text-2xl font-bold mb-1 text-blue-500">Plus</h3>
+              <p className="text-lg text-gray-700 mb-3">$10/mo</p>
+              <ul className="text-gray-600 mb-8 text-lg">
+                <li className="mb-2">✔ Unlimited alias creation</li>
+                <li className="mb-2">✔ Advanced spam filter</li>
+                <li className="mb-2">✔ 24/7 premium live support</li>
+                <li className="mb-2">✔ Custom alias email</li>
+                {/* ... Add more features */}
+              </ul>
+              <button
+                disabled
+                className="inline-block px-8 py-3 text-lg bg-gray-500 text-white rounded-full cursor-not-allowed hover:bg-gray-600 transition duration-150">
+                Coming Soon
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="mt-20">
+          <p className="text-center text-gray-300">
+            © 2023 myalias.pro All rights reserved.
+          </p>
+        </footer>
       </div>
     </div>
   );
