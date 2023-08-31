@@ -27,7 +27,6 @@ export default function Dev() {
         });
 
         if (response.status != 200) {
-          console.log(response)
           router.back();
         }
       }
