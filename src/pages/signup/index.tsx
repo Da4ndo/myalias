@@ -109,7 +109,7 @@ const SignUpPage: React.FC = () => {
               <label
                 className="block text-sm font-medium mb-2"
                 htmlFor="username">
-                Username
+                Username<span className="ml-1 text-red-500">*</span>
               </label>
               <input
                 id="username"
@@ -122,7 +122,7 @@ const SignUpPage: React.FC = () => {
             </div>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-2" htmlFor="email">
-                Email
+                Email<span className="ml-1 text-red-500">*</span>
               </label>
               <input
                 id="email"
@@ -137,7 +137,7 @@ const SignUpPage: React.FC = () => {
               <label
                 className="block text-sm font-medium mb-2"
                 htmlFor="password">
-                Password
+                Password<span className="ml-1 text-red-500">*</span>
               </label>
               <input
                 id="password"
@@ -154,6 +154,24 @@ const SignUpPage: React.FC = () => {
                     width: `${(getStrengthScore(password) / 6) * 100}%`,
                   }}></div>
               </div>
+            </div>
+            <div className="flex items-center mb-4">
+              <input
+                id="terms"
+                type="checkbox"
+                className="form-checkbox text-indigo-500 h-5 w-5 mr-2 focus:border-indigo-500 focus:outline-none transition duration-150"
+                required
+              />
+              <label className="text-sm font-medium" htmlFor="terms">
+                Agree to
+                <a
+                  className="text-indigo-500 hover:underline"
+                  href="/terms-of-service"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Terms of Service<span className="ml-1 text-red-500">*</span>
+                </a>
+              </label>
             </div>
 
             <button

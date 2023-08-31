@@ -10,12 +10,18 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen">
       <div className="bg-red-500 text-white w-full p-4">
-        <p className="text-center">
-          This is a test SaaS, not a real company. However, the system is secure and fully functional. For support, contact the creator, Da4ndo, at contact@da4ndo.com.
-        </p>
+        <div className="marquee">
+          <p>
+            This is a test SaaS, not a real company. However, the system is
+            secure and fully functional. For support, contact the creator,
+            Da4ndo, at contact@da4ndo.com.
+          </p>
+        </div>
       </div>
-      
-      <div className="container mx-auto px-1 py-5"> {/* Reduced padding here */}
+
+      <div className="container mx-auto px-1 py-5">
+        {" "}
+        {/* Reduced padding here */}
         {/* Navigation */}
         <nav className="flex justify-between items-center">
           <div className="flex items-center">
@@ -38,9 +44,10 @@ export default function Home() {
             </a>
           </div>
         </nav>
-
         {/* Hero Section */}
-        <header className="mt-10 md:mt-16 relative bg-blue-500 rounded-lg p-8"> {/* Reduced margin and padding here */}
+        <header className="mt-10 md:mt-16 relative bg-blue-500 rounded-lg p-8">
+          {" "}
+          {/* Reduced margin and padding here */}
           <img
             src="/background-image.jpg"
             alt="Background Image"
@@ -50,15 +57,21 @@ export default function Home() {
           <div className="container mx-auto relative z-20">
             <div className="text-center md:text-left md:flex md:items-center md:justify-between">
               <div className="space-y-8 md:space-y-12">
-                <h1 className="text-4xl md:text-5xl font-bold text-white"> {/* Reduced font size here */}
+                <h1 className="text-4xl md:text-5xl font-bold text-white">
+                  {" "}
+                  {/* Reduced font size here */}
                   Reimagine Your Email Workflow
                 </h1>
-                <p className="text-lg md:text-xl text-white leading-relaxed"> {/* Reduced font size here */}
+                <p className="text-lg md:text-xl text-white leading-relaxed">
+                  {" "}
+                  {/* Reduced font size here */}
                   With myalias, take control of your email. Create and manage
                   aliases seamlessly, ensuring your main email stays
                   clutter-free.
                 </p>
-                <div className="mt-6"> {/* Reduced margin here */}
+                <div className="mt-6">
+                  {" "}
+                  {/* Reduced margin here */}
                   <a
                     href="/signup"
                     className="inline-block px-8 py-3 text-lg bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-200 transition duration-200">
@@ -66,13 +79,14 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <div className="hidden md:block mt-6"> {/* Reduced margin here */}
+              <div className="hidden md:block mt-6">
+                {" "}
+                {/* Reduced margin here */}
                 {/* Placeholder for an illustration */}
               </div>
             </div>
           </div>
         </header>
-
         {/* Features Section */}
         <section className="mt-20 py-16 bg-white rounded-xl shadow-lg">
           <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
@@ -84,7 +98,8 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Create Alias</h3>
               <p className="text-gray-600">
-                Create unique aliases for different purposes, keeping your main email clutter-free.
+                Create unique aliases for different purposes, keeping your main
+                email clutter-free.
               </p>
             </div>
             {/* Feature 2 */}
@@ -94,7 +109,8 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Delete Alias</h3>
               <p className="text-gray-600">
-                Easily delete aliases that are no longer needed, managing your email workflow efficiently.
+                Easily delete aliases that are no longer needed, managing your
+                email workflow efficiently.
               </p>
             </div>
             {/* Feature 3 */}
@@ -102,15 +118,17 @@ export default function Home() {
               <div className="w-20 h-20 mx-auto bg-blue-500 rounded-full mb-8 flex items-center justify-center">
                 <FaToggleOn className="text-white text-2xl" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Enable/Disable Alias</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Enable/Disable Alias
+              </h3>
               <p className="text-gray-600">
-                Enable or disable aliases as per your needs, giving you full control over your email.
+                Enable or disable aliases as per your needs, giving you full
+                control over your email.
               </p>
             </div>
             {/* ... Add more features if needed */}
           </div>
         </section>
-
         {/* Plans Section */}
         <section className="mt-20">
           <h2 className="text-3xl font-bold text-center mb-10 text-white">
@@ -126,7 +144,7 @@ export default function Home() {
                 <li className="mb-2">✔ Encrypted emails</li>
                 <li className="mb-2">✔ We do not peek into your emails</li>
                 <li className="mb-2">✔ We do not store your emails</li>
-                
+
                 {/* ... Add more features */}
               </ul>
               <a
@@ -155,11 +173,17 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         {/* Footer */}
         <footer className="mt-20">
           <p className="text-center text-gray-300">
             © 2023 myalias.pro All rights reserved.
+          </p>
+          <p className="text-center text-gray-300">
+            <a
+              href="/terms-of-service"
+              className="text-gray-300 hover:underline">
+              Terms of Service
+            </a>
           </p>
         </footer>
       </div>

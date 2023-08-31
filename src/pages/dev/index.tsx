@@ -15,7 +15,24 @@ export default function Dev() {
   const [aliases, setAliases] = useState<Record<string, Alias[]>>({});
 
   useEffect(() => {
-    const token = Cookie.get("token");
+    const fetchData = async () => {
+      const token = Cookie.get("token");
+      if (!token) {
+        router.back();
+      } else {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dev/fetch`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status != 200) {
+          router.back();
+        }
+      }
+    };
+  
+    fetchData();
 
     if (activePanel === "users") {
       fetchUsers();
