@@ -9,6 +9,7 @@ const SignUpPage: React.FC = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
@@ -156,6 +157,28 @@ const SignUpPage: React.FC = () => {
                   }}></div>
               </div>
             </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="confirmPassword">
+                Confirm Password<span className="ml-1 text-red-500">*</span>
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
+                required
+              />
+              {password !== confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  Passwords do not match.
+                </p>
+              )}
+            </div>
+
             <div className="flex items-center mb-4">
               <input
                 id="terms"
@@ -178,7 +201,14 @@ const SignUpPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full p-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out">
+              disabled={
+                password !== confirmPassword || !username || !email || !password
+              }
+              className={`w-full p-2 ${
+                password !== confirmPassword || !username || !email || !password
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800"
+              } text-white rounded-lg transition duration-150 ease-in-out`}>
               Sign Up
             </button>
           </form>
