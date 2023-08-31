@@ -28,7 +28,6 @@
     "start": "npm run start:next & npm run start:nest"
   },
   "dependencies": {
-    "@types/react-toastify": "^4.1.0",
     "autoprefixer": "10.4.15",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.17",
