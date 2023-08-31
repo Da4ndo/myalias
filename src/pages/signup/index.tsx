@@ -2,6 +2,7 @@ import "../../app/globals.css";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
@@ -164,13 +165,14 @@ const SignUpPage: React.FC = () => {
               />
               <label className="text-sm font-medium" htmlFor="terms">
                 Agree to
-                <a
-                  className="text-indigo-500 hover:underline"
+                <Link
                   href="/terms-of-service"
+                  className="text-indigo-500 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer">
-                  Terms of Service<span className="ml-1 text-red-500">*</span>
-                </a>
+                  Terms of Service
+                </Link>
+                <span className="ml-1 text-red-500">*</span>
               </label>
             </div>
 

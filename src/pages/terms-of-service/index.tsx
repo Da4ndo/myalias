@@ -6,19 +6,19 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-lg backdrop-blur-md">
+        <div className="text-white bg-white bg-opacity-20 p-8 rounded-lg shadow-lg backdrop-blur-md">
           <h1 className="text-3xl font-bold mb-6 text-white">
             Terms of Service for MyAlias
           </h1>
           <p className="text-sm text-gray-300 mb-4">
-            Last Updated: 2023 september 1
+            Last Updated: September 1, 2023.
           </p>
 
           <h2 className="text-2xl font-bold mb-2">1. Introduction</h2>
 
           <p>
             Welcome to MyAlias, a service provided by MyAlias.pro. These Terms
-            of Service ("Terms") govern your access to and use of the MyAlias
+            of Service (&quot;Terms&quot;) govern your access to and use of the MyAlias
             email alias provider and any related services.
           </p>
 

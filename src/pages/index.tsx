@@ -3,6 +3,8 @@ import "../app/globals.css";
 import React, { useEffect, useState } from "react";
 import { FaUserSecret, FaTrashAlt, FaToggleOn } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
@@ -24,35 +26,40 @@ export default function Home() {
         {/* Reduced padding here */}
         {/* Navigation */}
         <nav className="flex justify-between items-center">
-          <div className="flex items-center">
-            <img
+          <div className="relative w-52 h-16 mr-4 bg-gray-100 bg-opacity-100 rounded">
+            <Image
               src="/myalias-removebg.png"
               alt="myalias logo"
-              className="w-full h-20 mr-4 bg-gray-100 bg-opacity-100 rounded"
+              layout="fill"
+              objectFit="cover"
             />
           </div>
           <div>
-            <a
+            <Link
               href="/login"
               className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-150">
               Login
-            </a>
-            <a
+            </Link>
+
+            <Link
               href="/signup"
               className="ml-4 px-4 py-2 bg-white text-blue-500 rounded hover:bg-gray-100 transition duration-150">
               Join Waitlist
-            </a>
+            </Link>
           </div>
         </nav>
         {/* Hero Section */}
         <header className="mt-10 md:mt-16 relative bg-blue-500 rounded-lg p-8">
           {" "}
           {/* Reduced margin and padding here */}
-          <img
-            src="/background-image.jpg"
-            alt="Background Image"
-            className="w-full h-64 md:h-[400px] object-cover mb-3 rounded"
-          />{" "}
+          <div className="relative w-full h-64 md:h-[400px] mb-3 rounded">
+            <Image
+              src="/background-image.jpg"
+              alt="Background Image"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>{" "}
           {/* Placeholder for a background image */}
           <div className="container mx-auto relative z-20">
             <div className="text-center md:text-left md:flex md:items-center md:justify-between">
@@ -72,11 +79,11 @@ export default function Home() {
                 <div className="mt-6">
                   {" "}
                   {/* Reduced margin here */}
-                  <a
+                  <Link
                     href="/signup"
                     className="inline-block px-8 py-3 text-lg bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-200 transition duration-200">
                     Join Waitlist
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="hidden md:block mt-6">
@@ -147,11 +154,11 @@ export default function Home() {
 
                 {/* ... Add more features */}
               </ul>
-              <a
+              <Link
                 href="/signup"
                 className="inline-block px-8 py-3 text-lg bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-150">
                 Get Started
-              </a>
+              </Link>
             </div>
 
             {/* Plus Plan */}
@@ -179,11 +186,11 @@ export default function Home() {
             © 2023 myalias.pro All rights reserved.
           </p>
           <p className="text-center text-gray-300">
-            <a
+            <Link
               href="/terms-of-service"
               className="text-gray-300 hover:underline">
               Terms of Service
-            </a>
+            </Link>
           </p>
         </footer>
       </div>
