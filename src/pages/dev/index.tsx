@@ -20,13 +20,14 @@ export default function Dev() {
       if (!token) {
         router.back();
       } else {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dev/fetch`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dev`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.status != 200) {
+          console.log(response)
           router.back();
         }
       }
