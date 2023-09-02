@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.VERCEL_URL as string),
   title: 'MyAlias',
   description: 'www.myalias.pro is a secure email alias generator that forwards emails to your real inbox. It allows you to create, enable, or delete aliases on demand. With myalias.pro, you can effectively manage and reduce spam by turning off aliases receiving excessive unwanted emails.',
   icons: "/favicon.ico",
