@@ -10,6 +10,8 @@ export default function RootLayout({
       <Head>
         <title>MyAlias</title>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <meta property="og:title" content="MyAlias" />
