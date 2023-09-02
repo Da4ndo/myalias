@@ -19,27 +19,26 @@ export default function Dev() {
 
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    const token = Cookie.get("token");
-    if (!token) {
-      router.back();
-    } else {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dev`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status != 200) {
-        router.back();
-      } else {
-        setLoading(false);
-      }
-    }
-  };
-
   useEffect(() => {
     // setLoading(false); // For Development
+    const fetchData = async () => {
+      const token = Cookie.get("token");
+      if (!token) {
+        router.back();
+      } else {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dev`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.status != 200) {
+          router.back();
+        } else {
+          setLoading(false);
+        }
+      }
+    };
     fetchData();
   }, [router]);
 
