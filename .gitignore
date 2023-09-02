@@ -72,3 +72,4 @@ coverage
 
 .env
 .env.local
+front-end/.env.local

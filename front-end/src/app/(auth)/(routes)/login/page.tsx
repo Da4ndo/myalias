@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
         router.push("/dashboard");
       }
     }
-  }, []);
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

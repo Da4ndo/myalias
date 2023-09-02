@@ -20,7 +20,7 @@
     "start:single": "next start",
     "start:dev": "yarn run dev & (cd ../back-end && yarn run start:dev)",
     "lint": "next lint",
-    "build:next": "next build",
+    "build:next": "ENV_FILE=.env.production next build",
     "build:nest": "cd ../back-end && npm run build:prod",
     "build": "npm run build:next && npm run build:nest",
     "start:next": "next start",

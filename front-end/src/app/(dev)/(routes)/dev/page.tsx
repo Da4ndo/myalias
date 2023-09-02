@@ -40,7 +40,7 @@ export default function Dev() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   useEffect(() => {
     if (activePanel === "users") {
