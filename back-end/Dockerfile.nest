@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /usr/src/app/api
+WORKDIR /usr/src/app
 
 COPY back-end/package*.json ./
 
