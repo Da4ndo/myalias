@@ -2,7 +2,7 @@
 
 import "../../globals.css";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaUserSecret, FaTrashAlt, FaToggleOn } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

@@ -1,16 +1,16 @@
 version: '3'
 services:
-  next-app:
+  front-end:
     build:
       context: .
-      dockerfile: Dockerfile.next
+      dockerfile: ./front-end/Dockerfile.next
     ports:
       - "127.0.0.1:7003:3000"
 
-  nest-api:
+  back-end:
     build:
       context: .
-      dockerfile: ./src/api/Dockerfile.nest
+      dockerfile: ./back-end/Dockerfile.nest
     ports:
       - "127.0.0.1:7004:4000"
     depends_on:
@@ -27,4 +27,4 @@ services:
       - MYSQL_DATABASE=mailserver
     volumes:
       - /mnt/storage/myalias.pro/database/mysql:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./front-end/init.sql:/docker-entrypoint-initdb.d/init.sql
