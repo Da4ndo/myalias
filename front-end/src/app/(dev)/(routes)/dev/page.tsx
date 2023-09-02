@@ -39,6 +39,7 @@ export default function Dev() {
   };
 
   useEffect(() => {
+    // setLoading(false); // For Development
     fetchData();
   }, [router]);
 
@@ -184,7 +185,7 @@ export default function Dev() {
       <aside
         className={`w-64 bg-white p-6 shadow-md transform md:transform-none transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 fixed md:static h-full md:h-auto`}>
+        } md:translate-x-0 fixed md:static h-full md:h-auto z-40`}>
         <h1 className="text-2xl font-bold text-blue-600 mb-6">Dashboard</h1>
         <ul>
           {["overview", "users", "aliases"].map((panel) => (
@@ -203,12 +204,12 @@ export default function Dev() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-10 overflow-y-auto rounded-l-xl ml-0 md:ml-64">
+      <main className="flex-1 p-10 overflow-y-auto rounded-l-xl ml-0">
         {/* Display content based on active panel */}
         {activePanel === "overview" && <div>Overview Content</div>}
 
         {activePanel === "users" && (
-          <div className="bg-white rounded-lg shadow-lg p-6 my-4 mx-auto w-full max-w-2xl">
+          <div className="bg-white rounded-lg shadow-lg p-6 my-4 mx-auto md:w-9/10 lg:w-9/10 xl:w-9/10 2xl:w-9/10">
             <div className="flex items-center space-x-4 mb-6">
               <label
                 htmlFor="filter"
@@ -229,7 +230,7 @@ export default function Dev() {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="bg-white shadow-lg rounded p-4 mb-6 flex flex-col transition-all duration-200 ease-in-out transform hover:scale-105">
+                className="bg-white shadow-lg rounded p-4 mb-6 flex flex-col transition-all duration-200 ease-in-out transform hover:scale-105 z-10">
                 <div className="flex justify-between items-center mb-4">
                   <p className="text-gray-800 text-lg font-semibold">
                     {user.username}
