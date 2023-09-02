@@ -51,7 +51,7 @@ export default function Dashboard() {
         });
         router.push("/login");
       });
-  });
+  }, [router]);
 
   const deleteAlias = async (aliasEmail: string) => {
     const data = await fetchAPI(
