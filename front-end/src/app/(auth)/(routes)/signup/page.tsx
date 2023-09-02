@@ -1,20 +1,25 @@
-'use client'
+"use client";
 
 import "../../../globals.css";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+type User = {
+  username: string;
+  password: string;
+  email: string;
+}
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User>({ username: "", password: "", email: "" });
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,18 +33,17 @@ const SignUpPage: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username, password, email }),
+          body: JSON.stringify(user),
         }
       );
 
       const data = await response.json();
 
-      if (data.status == 201) {
+      if (response.ok) {
         setQueuePosition(data.queuePosition ?? "?");
         setErrorMessage(null);
         setIsSignedUp(true);
       } else {
-        // Display an error message to the user
         setErrorMessage(data.message || "Registration failed.");
       }
     } catch (error) {
@@ -49,37 +53,19 @@ const SignUpPage: React.FC = () => {
   };
 
   function colorClass() {
-    const score = getStrengthScore(password);
-    switch (score) {
-      case 0:
-      case 1:
-        return "bg-red-400";
-      case 2:
-        return "bg-yellow-300";
-      case 3:
-        return "bg-yellow-500";
-      case 4:
-        return "bg-green-400";
-      case 5:
-        return "bg-green-500";
-      case 6:
-        return "bg-purple-500";
-      default:
-        return "bg-gray-300";
-    }
+    const score = getStrengthScore(user.password);
+    return ["bg-red-400", "bg-red-400", "bg-yellow-300", "bg-yellow-500", "bg-green-400", "bg-green-500", "bg-purple-500", "bg-gray-300"][score];
   }
 
   function getStrengthScore(password: string): number {
-    let score = 0;
-
-    if (password.length >= 8) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/\d/.test(password)) score++;
-    if (/\W/.test(password)) score++;
-    if (password.length >= 16) score++; // added an extra condition for longer passwords
-
-    return score;
+    return [
+      password.length >= 8,
+      /[a-z]/.test(password),
+      /[A-Z]/.test(password),
+      /\d/.test(password),
+      /\W/.test(password),
+      password.length >= 16
+    ].filter(Boolean).length;
   }
 
   return (
@@ -118,8 +104,10 @@ const SignUpPage: React.FC = () => {
               <input
                 id="username"
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={user.username}
+                onChange={(e) =>
+                  setUser({ ...user, [e.target.id]: e.target.value })
+                }
                 className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
                 required
               />
@@ -131,8 +119,10 @@ const SignUpPage: React.FC = () => {
               <input
                 id="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={user.email}
+                onChange={(e) =>
+                  setUser({ ...user, [e.target.id]: e.target.value })
+                }
                 className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
                 required
               />
@@ -146,8 +136,10 @@ const SignUpPage: React.FC = () => {
               <input
                 id="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
+                onChange={(e) =>
+                  setUser({ ...user, [e.target.id]: e.target.value })
+                }
                 className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
                 required
               />
@@ -155,7 +147,7 @@ const SignUpPage: React.FC = () => {
                 <div
                   className={`absolute h-full ${colorClass()} rounded transition-all duration-500`}
                   style={{
-                    width: `${(getStrengthScore(password) / 6) * 100}%`,
+                    width: `${(getStrengthScore(user.password) / 6) * 100}%`,
                   }}></div>
               </div>
             </div>
@@ -174,7 +166,7 @@ const SignUpPage: React.FC = () => {
                 className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
                 required
               />
-              {password !== confirmPassword && (
+              {user.password !== confirmPassword && (
                 <p className="text-red-500 text-xs mt-1">
                   Passwords do not match.
                 </p>
@@ -185,6 +177,8 @@ const SignUpPage: React.FC = () => {
               <input
                 id="terms"
                 type="checkbox"
+                checked={isTermsChecked}
+                onChange={(e) => setIsTermsChecked(e.target.checked)}
                 className="form-checkbox text-indigo-500 h-5 w-5 mr-2 focus:border-indigo-500 focus:outline-none transition duration-150"
                 required
               />
@@ -204,10 +198,18 @@ const SignUpPage: React.FC = () => {
             <button
               type="submit"
               disabled={
-                password !== confirmPassword || !username || !email || !password
+                user.password !== confirmPassword ||
+                !user.username ||
+                !user.email ||
+                !user.password ||
+                !isTermsChecked
               }
               className={`w-full p-2 ${
-                password !== confirmPassword || !username || !email || !password
+                user.password !== confirmPassword ||
+                !user.username ||
+                !user.email ||
+                !user.password ||
+                !isTermsChecked
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800"
               } text-white rounded-lg transition duration-150 ease-in-out`}>

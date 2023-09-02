@@ -1,20 +1,32 @@
-'use client'
+"use client";
 
 import "../../../globals.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import React, { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import { FaTrash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { Alias, User } from "../../../../shared/types";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Dashboard() {
-  const [aliases, setAliases] = useState<Alias[]>([]);
   const [user, setUser] = useState<User>();
+  const [aliases, setAliases] = useState<Alias[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const fetchAPI = async (url: string, method: string = "GET", body?: any) => {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${Cookie.get("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: body ? JSON.stringify(body) : null,
+    });
+    return response.json();
+  };
 
   useEffect(() => {
     const token = Cookie.get("token");
@@ -25,104 +37,84 @@ export default function Dashboard() {
     }
 
     // Fetch aliases from the API
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Authentication failed");
-        return response.json();
-      })
+    fetchAPI(`${process.env.NEXT_PUBLIC_API}/alias`)
       .then((data) => {
         setAliases(data.aliases);
         setUser(data.user);
-        setLoading(false); // Set loading to false after data is set
+        setLoading(false);
       })
       .catch(() => {
-        Cookie.set("token", "expired");
+        Cookie.set("token", "expired", {
+          sameSite: "Strict",
+          SameSite: "Strict",
+          secure: true,
+        });
         router.push("/login");
       });
-  }, [router]);
+  }, []);
 
-  const deleteAlias = (aliasEmail: string) => {
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setAliases((prevAliases) =>
-            prevAliases.filter((alias) => alias.alias_email !== aliasEmail)
-          );
-          toast.success('Alias removed successfully.');
-        } else {
-          console.error(data.message);
-          toast.error('Error removing alias.');
-        }
-      });
+  const deleteAlias = async (aliasEmail: string) => {
+    const data = await fetchAPI(
+      `${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`,
+      "DELETE"
+    );
+
+    if (data.status === 200) {
+      setAliases((prevAliases) =>
+        prevAliases.filter((alias) => alias.alias_email !== aliasEmail)
+      );
+      toast.success("Alias removed successfully.");
+    } else {
+      console.error(data.message);
+      toast.error("Error removing alias.");
+    }
   };
 
-  const toggleAlias = (aliasEmail: string) => {
+  const toggleAlias = async (aliasEmail: string) => {
     const aliasToToggle = aliases.find(
       (alias) => alias.alias_email === aliasEmail
     );
     if (!aliasToToggle) return;
 
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ enable: !aliasToToggle.enable }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setAliases((prevAliases) =>
-            prevAliases.map((alias) => {
-              if (alias.alias_email === aliasEmail) {
-                alias.enable = !alias.enable;
-              }
-              return alias;
-            })
-          );
-          toast.success('Alias status changed successfully.');
-        } else {
-          console.error(data.message);
-          toast.error('Error changing alias status.');
-        }
-      });
+    const data = await fetchAPI(
+      `${process.env.NEXT_PUBLIC_API}/alias/${aliasEmail}`,
+      "PUT",
+      { enable: !aliasToToggle.enable }
+    );
+
+    if (data.status === 200) {
+      setAliases((prevAliases) =>
+        prevAliases.map((alias) => {
+          if (alias.alias_email === aliasEmail) {
+            alias.enable = !alias.enable;
+          }
+          return alias;
+        })
+      );
+      toast.success("Alias status changed successfully.");
+    } else {
+      console.error(data.message);
+      toast.error("Error changing alias status.");
+    }
   };
 
-  const createNewAlias = () => {
+  const createNewAlias = async () => {
     // Check if user is on free plan and has already 10 aliases
-    if (user?.plan.toLowerCase() === 'free' && aliases.length >= 10) {
-      toast.warn('Only 10 aliases can be created by free plan users.');
+    if (user?.plan.toLowerCase() === "free" && aliases.length >= 10) {
+      toast.warn("Only 10 aliases can be created by free plan users.");
       return;
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API}/alias`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${Cookie.get("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 201 && data.alias) {
-          setAliases((prevAliases) => [...prevAliases, data.alias]);
-          toast.info(
-            "A new alias was made. The registration process will take 1 to 3 minutes before it starts to function."
-          );
-        } else {
-          toast.error(data.message || 'An error occurred.');
-        }
-      });
+    const data = await fetchAPI(`${process.env.NEXT_PUBLIC_API}/alias`, "POST");
+
+    if (data.status === 201 && data.alias) {
+      setAliases((prevAliases) => [...prevAliases, data.alias]);
+      toast.info(
+        "A new alias was made. The registration process will take 1 to 3 minutes before it starts to function."
+      );
+    } else {
+      toast.error(data.message || "An error occurred.");
+    }
   };
 
   const handleLogout = () => {
@@ -132,10 +124,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-500"></div>
-        </div>
+      <div className="min-h-screen flex bg-gradient-to-r from-blue-500 to-indigo-600 items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-white"></div>
       </div>
     );
   }
@@ -144,10 +134,12 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600 flex flex-col">
       {/* Navbar */}
       <div className="bg-white shadow-md p-4 fixed w-full top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">{user?.email}</h1>
-          <div className="flex items-center">
-            <p className="text-gray-800 mr-4">
+        <div className="container mx-auto flex flex-wrap justify-between items-center">
+          <h1 className="text-xl sm:text-2xl font-bold text-blue-600 truncate w-1/2 sm:w-auto">
+            {user?.email}
+          </h1>
+          <div className="flex items-center mt-2 sm:mt-0">
+            <p className="text-gray-800 mr-4 text-sm sm:text-base">
               Plan: <span className="font-bold">{user?.plan}</span>
             </p>
             <button
@@ -196,9 +188,7 @@ export default function Dashboard() {
         </div>
         {/* Alias counter */}
         <div className="text-center mt-5">
-          <p className="text-white text-lg">
-            {aliases.length}/10 Aliases
-          </p>
+          <p className="text-white text-lg">{aliases.length}/10 Aliases</p>
         </div>
       </div>
 
@@ -210,9 +200,17 @@ export default function Dashboard() {
           </p>
         </div>
       </footer>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
-
-

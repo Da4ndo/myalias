@@ -1,16 +1,13 @@
-'use client'
+"use client";
 
 import "../../globals.css";
 
 import React from "react";
 import { FaUserSecret, FaTrashAlt, FaToggleOn } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <div className="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen">
       <div className="bg-red-500 text-white w-full p-4">
@@ -27,8 +24,8 @@ export default function Home() {
         {" "}
         {/* Reduced padding here */}
         {/* Navigation */}
-        <nav className="flex justify-between items-center">
-          <div className="relative w-52 h-16 mr-4 bg-gray-100 bg-opacity-100 rounded">
+        <nav className="flex flex-wrap justify-between items-center">
+          <div className="relative w-40 md:w-52 h-12 md:h-16 mr-4 bg-gray-100 bg-opacity-100 rounded overflow-hidden">
             <Image
               src="/myalias-removebg.png"
               alt="myalias logo"
@@ -36,16 +33,16 @@ export default function Home() {
               objectFit="cover"
             />
           </div>
-          <div>
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-0 md:space-x-4 mt-2 md:mt-0">
             <Link
               href="/login"
-              className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-150">
+              className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-150 flex justify-center">
               Login
             </Link>
 
             <Link
               href="/signup"
-              className="ml-4 px-4 py-2 bg-white text-blue-500 rounded hover:bg-gray-100 transition duration-150">
+              className="px-4 py-2 bg-white text-blue-500 rounded hover:bg-gray-100 transition duration-150 flex justify-center">
               Join Waitlist
             </Link>
           </div>
@@ -54,7 +51,7 @@ export default function Home() {
         <header className="mt-10 md:mt-16 relative bg-blue-500 rounded-lg p-8">
           {" "}
           {/* Reduced margin and padding here */}
-          <div className="relative w-full h-64 md:h-[400px] mb-3 rounded">
+          <div className="relative w-full h-64 md:h-[400px] mb-3 rounded overflow-hidden">
             <Image
               src="/background-image.jpg"
               alt="Background Image"
@@ -143,7 +140,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-10 text-white">
             Choose Your Plan
           </h2>
-          <div className="flex space-x-8">
+          <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8">
             {/* Free Plan */}
             <div className="flex-1 bg-white rounded-xl shadow-lg p-8 text-center transition transform hover:scale-105">
               <h3 className="text-2xl font-bold mb-4">Free</h3>
@@ -153,7 +150,6 @@ export default function Home() {
                 <li className="mb-2">✔ Encrypted emails</li>
                 <li className="mb-2">✔ We do not peek into your emails</li>
                 <li className="mb-2">✔ We do not store your emails</li>
-
                 {/* ... Add more features */}
               </ul>
               <Link

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import "../../../globals.css";
 
@@ -6,54 +6,63 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookie from "js-cookie";
 
+type User = {
+  usernameOrEmail: string;
+  password: string;
+};
+
 const LoginPage: React.FC = () => {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User>({ usernameOrEmail: "", password: "" });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const token = Cookie.get("token");
 
-    if (token == "expired") {
-      setErrorMessage('You have been logged out because your token has expired');
-      Cookie.remove("token");
+    if (token) {
+      if (token == "expired") {
+        setErrorMessage(
+          "You have been logged out because your token has expired"
+        );
+        Cookie.remove("token");
+      } else {
+        router.push("/dashboard");
+      }
     }
-    else if (token) router.push("/dashboard");
-  }, [router]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ usernameOrEmail: username, password }),
-        }
-      );
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    ).catch((error) => {
+      console.error("Error during authentication:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    });
 
+    if (response) {
       const data = await response.json();
 
       if (data.access_token) {
         Cookie.set("token", data.access_token, {
           expires: 30,
           sameSite: "Strict",
+          SameSite: "Strict",
           secure: true,
         });
         router.push("/dashboard");
       } else {
-        // Display an error message to the user
         setErrorMessage(data.message || "Login failed.");
       }
-    } catch (error) {
-      console.error("Error during authentication:", error);
-      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
@@ -77,14 +86,16 @@ const LoginPage: React.FC = () => {
           <div className="mb-4">
             <label
               className="block text-sm font-medium mb-2"
-              htmlFor="username">
+              htmlFor="usernameOrEmail">
               Username or Email
             </label>
             <input
-              id="username"
+              id="usernameOrEmail"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={user.usernameOrEmail}
+              onChange={(e) =>
+                setUser({ ...user, [e.target.id]: e.target.value })
+              }
               className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
               required
             />
@@ -98,8 +109,10 @@ const LoginPage: React.FC = () => {
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={user.password}
+              onChange={(e) =>
+                setUser({ ...user, [e.target.id]: e.target.value })
+              }
               className="mt-1 p-2 w-full border-2 border-indigo-300 rounded-md focus:border-indigo-500 focus:outline-none transition duration-150"
               required
             />
