@@ -1,7 +1,7 @@
-![Forks](https://img.shields.io/github/forks/Da4ndo/MyAlias?label=Forks&color=lime&logo=githubactions&logoColor=lime)
-![Stars](https://img.shields.io/github/stars/Da4ndo/MyAlias?label=Stars&color=yellow&logo=reverbnation&logoColor=yellow)
-![License](https://img.shields.io/github/license/Da4ndo/MyAlias?label=License&color=808080&logo=gitbook&logoColor=808080)
-![Issues](https://img.shields.io/github/issues/Da4ndo/MyAlias?label=Issues&color=red&logo=ifixit&logoColor=red)
+![Forks](https://img.shields.io/github/forks/Da4ndo/myalias?label=Forks&color=lime&logo=githubactions&logoColor=lime)
+![Stars](https://img.shields.io/github/stars/Da4ndo/myalias?label=Stars&color=yellow&logo=reverbnation&logoColor=yellow)
+![License](https://img.shields.io/github/license/Da4ndo/myalias?label=License&color=808080&logo=gitbook&logoColor=808080)
+![Issues](https://img.shields.io/github/issues/Da4ndo/myalias?label=Issues&color=red&logo=ifixit&logoColor=red)
 
 <h1 align="center">MyAlias</h1>
 
