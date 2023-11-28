@@ -31,7 +31,7 @@
 - [Node.js](https://nodejs.org/en)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable)
 
-### Installation
+### 🔧 Installation
 
 1. Clone the repository:
 
@@ -48,10 +48,10 @@ cd src/api
 yarn install
 ```
 
-# License
+## 📝 License
 
 This project is licensed under the MIT License. See the **LICENSE** file for details.
 
-## Contributing
+## 🤝Contributing
 
 Contributions are welcome. Feel free to fix problems, report bugs, or propose new features.
