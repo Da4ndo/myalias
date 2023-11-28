@@ -6,7 +6,8 @@
 <h1 align="center">MyAlias</h1>
 
 <p align="center">
-  <b>[www.myalias.pro](https://myalias.pro)</b> is a secure email alias generator that forwards emails to your real inbox. It allows you to create, enable, or delete aliases on demand. With myalias.pro, you can effectively manage and reduce spam by turning off aliases receiving excessive unwanted emails. Project made with ❤ by Da4ndo.
+
+[www.myalias.pro](https://myalias.pro) is a secure email alias generator that forwards emails to your real inbox. It allows you to create, enable, or delete aliases on demand. With myalias.pro, you can effectively manage and reduce spam by turning off aliases receiving excessive unwanted emails. Project made with ❤ by Da4ndo.
 </p>
 <p align="center">
   You can click on the star (⭐️) button above this repository if you liked this project! Thank you all. 🙏
