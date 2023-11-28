@@ -26,7 +26,7 @@
 
 ## 🛠️ Getting Started
 
-### Prerequisites
+### 📋 Prerequisites
 
 - [Node.js](https://nodejs.org/en)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable)
