@@ -52,6 +52,6 @@ yarn install
 
 This project is licensed under the MIT License. See the **LICENSE** file for details.
 
-## 🤝Contributing
+## 🤝 Contributing
 
 Contributions are welcome. Feel free to fix problems, report bugs, or propose new features.
