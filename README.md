@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://img.shields.io/github/forks/Da4ndo/MyAlias?label=Forks&color=lime&logo=githubactions&logoColor=lime" alt="Forks">
-  <img src="https://img.shields.io/github/stars/Da4ndo/MyAlias?label=Stars&color=yellow&logo=reverbnation&logoColor=yellow" alt="Stars">
-  <img src="https://img.shields.io/github/license/Da4ndo/MyAlias?label=License&color=808080&logo=gitbook&logoColor=808080" alt="License">
-  <img src="https://img.shields.io/github/issues/Da4ndo/MyAlias?label=Issues&color=red&logo=ifixit&logoColor=red" alt="Issues">
+  <img src="https://img.shields.io/github/forks/Da4ndo/myalias?label=Forks&color=lime&logo=githubactions&logoColor=lime" alt="Forks">
+  <img src="https://img.shields.io/github/stars/Da4ndo/myalias?label=Stars&color=yellow&logo=reverbnation&logoColor=yellow" alt="Stars">
+  <img src="https://img.shields.io/github/license/Da4ndo/myalias?label=License&color=808080&logo=gitbook&logoColor=808080" alt="License">
+  <img src="https://img.shields.io/github/issues/Da4ndo/myalias?label=Issues&color=red&logo=ifixit&logoColor=red" alt="Issues">
 </p>
 
 <h1 align="center">MyAlias</h1>
